@@ -1,50 +1,20 @@
-const app = document.getElementById('root')
+// this function fetches data from the Seattle Cultural Space Inventory API
+function getData() {
+fetch('https://data.seattle.gov/resource/vsxr-aydq.json')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    // Filter data based on 'name' column
+    let filteredData = data.filter(item => item.name.toLowerCase().includes('museum')); // filters culteral spaces to only museums
+    filteredData = filteredData.filter(item => item.phone != null); // gets rid of closed museums
+    return filteredData;
+  })
+  .catch(error => {
+    console.error('There was a problem with the fetch operation:', error);
+  });
 
-const container = document.createElement('div')
-container.setAttribute('class', 'container')
-
-app.appendChild(container)
-
-var request = new XMLHttpRequest()
-request.open('GET', 'https://data.seattle.gov/resource/vsxr-aydq.json', true)
-request.onload = function () {
-  // Begin accessing JSON data here
-  var data = JSON.parse(this.response)
-  if (request.status >= 200 && request.status < 400) {
-    data.forEach((movie) => {
-      const card = document.createElement('div')
-      card.setAttribute('class', 'card')
-
-      const h1 = document.createElement('h1')
-      h1.textContent = movie.title
-
-      const p = document.createElement('p')
-      movie.description = movie.description.substring(0, 300)
-      p.textContent = `${movie.description}...`
-
-      container.appendChild(card)
-      card.appendChild(h1)
-      card.appendChild(p)
-    })
-  } else {
-    const errorMessage = document.createElement('marquee')
-    errorMessage.textContent = `Gah, it's not working!`
-    app.appendChild(errorMessage)
-  }
 }
-
-request.send()
-
-
-
-
-// const data = null;
-
-// function getData() {
-//     const response = fetch('https://data.seattle.gov/resource/vsxr-aydq.json');
-//     data = response.json();
-//   }
-
-// data = data.parse;
-
-

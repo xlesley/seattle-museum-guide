@@ -10,7 +10,84 @@
   </head>
 
   <body>
-    <div id="root"></div>
-    <script src="scripts.js"></script>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="data-container"></div>
+  
+    <script>
+        // Fetch data from the API
+// Fetch data from the API
+fetch('https://data.seattle.gov/resource/vsxr-aydq.json')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    // Filter data based on 'name' column
+    let filteredData = data.filter(item => item.name.toLowerCase().includes('museum'));
+    filteredData = filteredData.filter(item => item.phone != null); // gets rid of closed museum
+
+    displayData(filteredData);
+  })
+  .catch(error => {
+    console.error('There was a problem with the fetch operation:', error);
+  });
+
+// Function to display fetched data in a table
+function displayData(data) {
+  // Get a reference to the container element
+  const container = document.getElementById('data-container');
+
+  // Create the table element
+  const table = document.createElement('table');
+
+  // Create and append table header row
+  const thead = document.createElement('thead');
+  const headerRow = document.createElement('tr');
+  Object.keys(data[0]).forEach(key => {
+    const th = document.createElement('th');
+    th.textContent = key;
+    headerRow.appendChild(th);
+  });
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
+
+  // Create and append table body rows
+  const tbody = document.createElement('tbody');
+  data.forEach(item => {
+    const row = document.createElement('tr');
+    Object.values(item).forEach(value => {
+      const cell = document.createElement('td');
+      if (value === null) {
+        value = "HI";
+      }
+      cell.textContent = value;
+      row.appendChild(cell);
+    });
+    tbody.appendChild(row);
+  });
+  table.appendChild(tbody);
+
+  // Append the table to the container
+  container.appendChild(table);
+}
+
+    </script>
   </body>
 </html>

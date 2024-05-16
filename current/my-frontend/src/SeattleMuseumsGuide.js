@@ -2,25 +2,42 @@ import React, { useState } from "react";
 
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-function BottomNav(props) {
-  // Define state for the value of the BottomNavigation
-  const [value, setValue] = useState(0);
+// import FolderIcon from '@mui/icons-material/Folder';
+// import RestoreIcon from '@mui/icons-material/Restore';
+// import FavoriteIcon from '@mui/icons-material/Favorite';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+function BottomNavTabs() {
+  const [value, setValue] = React.useState("recents");
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   return (
-    <BottomNavigation
-      showLabels
-      value={value}
-      onChange={(event, newValue) => {
-        setValue(newValue);
-      }}
-    >
-      <BottomNavigationAction label="Home" /*icon={<SmthIcon />}*/ />
-      <BottomNavigationAction label="Exhibitions" /*icon={<SmthIcon />}*/ />
-      <BottomNavigationAction label="Favorites" /*icon={<SmthIcon />}*/ />
-      <BottomNavigationAction label="Profile" /*icon={<SmthIcon />}*/ />
+    <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
+      <BottomNavigationAction
+        label="Nearby"
+        value="nearby"
+        icon={<LocationOnIcon />}
+      />
+      <BottomNavigationAction
+        label="Nearby"
+        value="nearby"
+        //   icon={<LocationOnIcon />}
+      />
+      <BottomNavigationAction
+        label="Nearby"
+        value="nearby"
+        //   icon={<LocationOnIcon />}
+      />
+      <BottomNavigationAction
+        label="Nearby"
+        value="nearby"
+        //   icon={<LocationOnIcon />}
+      />
     </BottomNavigation>
   );
 }
-
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -49,13 +66,16 @@ function Navbar(props) {
   );
 }
 
-import Paper from '@mui/material/Paper';
+import Paper from "@mui/material/Paper";
 function SeattleMuseumsGuide(props) {
   return (
     <>
       <Navbar />
-      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
-        <BottomNav />
+      <Paper
+        sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
+        elevation={3}
+      >
+        <BottomNavTabs />
       </Paper>
     </>
   );

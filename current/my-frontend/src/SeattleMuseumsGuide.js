@@ -5,37 +5,58 @@ import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 // import FolderIcon from '@mui/icons-material/Folder';
 // import RestoreIcon from '@mui/icons-material/Restore';
 // import FavoriteIcon from '@mui/icons-material/Favorite';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import HomeIcon from "@mui/icons-material/Home";
+import MuseumIcon from "@mui/icons-material/Museum";
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import BookIcon from "@mui/icons-material/Book";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
 function BottomNavTabs() {
-  const [value, setValue] = React.useState("recents");
+  const [value, setValue] = React.useState("home");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   return (
-    <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
-      <BottomNavigationAction
-        label="Nearby"
-        value="nearby"
-        icon={<LocationOnIcon />}
-      />
-      <BottomNavigationAction
-        label="Nearby"
-        value="nearby"
-        //   icon={<LocationOnIcon />}
-      />
-      <BottomNavigationAction
-        label="Nearby"
-        value="nearby"
-        //   icon={<LocationOnIcon />}
-      />
-      <BottomNavigationAction
-        label="Nearby"
-        value="nearby"
-        //   icon={<LocationOnIcon />}
-      />
-    </BottomNavigation>
+    <Paper
+      sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
+      elevation={3}
+    >
+      <Box display="flex" justifyContent="center">
+        <BottomNavigation
+          sx={{ width: 500 }}
+          value={value}
+          onChange={handleChange}
+        >
+          <BottomNavigationAction
+            label="Home"
+            value="home"
+            icon={<HomeIcon />}
+          />
+          <BottomNavigationAction
+            label="Museums"
+            value="museums"
+            icon={<AccountBalanceIcon />}
+          />
+          <BottomNavigationAction
+            label="Favorites"
+            value="favorites"
+            icon={<FavoriteIcon />}
+          />
+          <BottomNavigationAction
+            label="Exhibitions"
+            value="exhibitions"
+            icon={<BookIcon />}
+          />
+          <BottomNavigationAction
+            label="Profile"
+            value="profile"
+            icon={<AccountBoxIcon />}
+          />
+        </BottomNavigation>
+      </Box>
+    </Paper>
   );
 }
 import Box from "@mui/material/Box";
@@ -55,7 +76,7 @@ function Navbar(props) {
             aria-label="menu"
             sx={{ mr: 2 }}
           >
-            {/* <MenuIcon /> */}
+            <MuseumIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Seattle Museums Guide
@@ -71,12 +92,7 @@ function SeattleMuseumsGuide(props) {
   return (
     <>
       <Navbar />
-      <Paper
-        sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
-        elevation={3}
-      >
-        <BottomNavTabs />
-      </Paper>
+      <BottomNavTabs />
     </>
   );
 }

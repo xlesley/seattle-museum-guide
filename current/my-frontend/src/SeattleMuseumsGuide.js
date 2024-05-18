@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { useNavigate } from 'react-router-dom';
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 // import FolderIcon from '@mui/icons-material/Folder';
@@ -11,11 +11,20 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import BookIcon from "@mui/icons-material/Book";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
-function BottomNavTabs() {
-  const [value, setValue] = React.useState("home");
+import Paper from '@mui/material/Paper';
+
+export function BottomNavTabs() {
+  // const [value, setValue] = React.useState("home");
+
+  // const handleChange = (event, newValue) => {
+  //   setValue(newValue);
+  // };
+  const [value, setValue] = React.useState('/');
+  const navigate = useNavigate();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    navigate(newValue);
   };
 
   return (
@@ -31,7 +40,7 @@ function BottomNavTabs() {
         >
           <BottomNavigationAction
             label="Home"
-            value="home"
+            value="/"
             icon={<HomeIcon />}
           />
           <BottomNavigationAction
@@ -64,7 +73,7 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-function Navbar(props) {
+export function Navbar(props) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -87,14 +96,14 @@ function Navbar(props) {
   );
 }
 
-import Paper from "@mui/material/Paper";
-function SeattleMuseumsGuide(props) {
-  return (
-    <>
-      <Navbar />
-      <BottomNavTabs />
-    </>
-  );
-}
+// import Paper from "@mui/material/Paper";
+// function SeattleMuseumsGuide(props) {
+//   return (
+//     <>
+//       <Navbar />
+//       <BottomNavTabs />
+//     </>
+//   );
+// }
 
-export default SeattleMuseumsGuide;
+// export default SeattleMuseumsGuide;

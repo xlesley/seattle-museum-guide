@@ -5,10 +5,15 @@ import CssBaseline from '@mui/material/CssBaseline';
 
 import Typography from '@mui/material/Typography';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import SeattleMuseumsGuide from './SeattleMuseumsGuide';
+// import SeattleMuseumsGuide from './SeattleMuseumsGuide';
+import Home from './Home';
+import Profile from './Profile';
+import Exhibitions from './Exhibitions';
+import Museums from './Museums';
+import Favorites from './Favorites';
+import Layout from './Layout';
 
 function Copyright() {
   return (
@@ -53,9 +58,20 @@ export default function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-        <Typography variant="h4" component="h1" sx={{ mb: 2 }}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="museums" element={<Museums />} />
+            <Route path="favorites" element={<Favorites />} />
+            <Route path="exhibitions" element={<Exhibitions />} />
+            <Route path="profile" element={<Profile />} />
+          </Route>
+        </Routes>
+      </Router>
+        {/* <Typography variant="h4" component="h1" sx={{ mb: 2 }}>
           <SeattleMuseumsGuide/>
-        </Typography>
+        </Typography> */}
     </ThemeProvider>
   );
 }

@@ -1,5 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
+import museumsData from './museums.json';
 import { loadScript } from './loadScript';
 
 function EmbeddedMap() {
@@ -99,16 +103,45 @@ function EmbeddedMap() {
         };
     }, []);
 
-    return <Box id="map-container"
-        sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }} />;
+    return <Box id="map-container" sx={{ display: 'flex', flexDirection: 'column', minHeight: '75vh' }} />;
+}
+
+const Item = styled(Paper)(({ theme }) => ({
+    ...theme.typography.body2,
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+}));
+
+const MuseumsGrid = ({ museums }) => {
+    return (
+        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+            {museums.map((museum, index) => (
+                <Grid item xs={12} sm={4} md={4} key={index}>
+                    <Item>
+                        <h2>{museum.name}</h2>
+                        <p>{museum.location.address}</p>
+                        <></>
+                    </Item>
+                </Grid>
+            ))}
+        </Grid>
+    );
+};
+
+function MuseumList() {
+    return (
+        <MuseumsGrid museums={museumsData} />
+    );
 }
 
 function Museums() {
     return (
         <Box>
             <EmbeddedMap />
+            <MuseumList />
         </Box>
-    )
+    );
 }
 
 export default Museums;

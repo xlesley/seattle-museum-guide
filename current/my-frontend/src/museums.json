@@ -1,0 +1,40 @@
+[
+    {
+          "id": "1",
+          "name": "Seattle Art Museum",
+          "location": {
+            "address": "1300 1st Ave, Seattle, WA 98101",
+            "latitude": 47.6077,
+            "longitude": -122.3381
+          },
+          "contact": {
+            "phone": "+1-206-654-3100",
+            "email": "info@seattleartmuseum.org",
+            "website": "http://www.seattleartmuseum.org"
+          },
+          "opening_hours": {
+            "monday": "Closed",
+            "tuesday": "Closed",
+            "wednesday": "10:00-17:00",
+            "thursday": "10:00-17:00",
+            "friday": "10:00-17:00",
+            "saturday": "10:00-17:00",
+            "sunday": "10:00-17:00"
+          },
+          "tickets": {
+            "prices": {
+              "adult": 30,
+              "senior": 25,
+              "student": 20,
+              "child": 10
+            },
+            "purchase_link": "http://www.seattleartmuseum.org/tickets"
+          },
+          "social_media": {
+            "facebook": "http://facebook.com/seattleartmuseum",
+            "twitter": "http://twitter.com/iamsam",
+            "instagram": "http://instagram.com/seattleartmuseum"
+          }
+        }
+    
+]

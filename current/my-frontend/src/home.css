@@ -1,0 +1,51 @@
+/* Set background image */
+body {
+    background-image: url('D:\Senior Projects\Order_281980442 done\current\current\my-frontend\public\bg2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Welcome Section styles */
+.welcome-container {
+    text-align: center;
+    position: relative;
+    animation: fadeIn 5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.welcome-text {
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 10rem;
+}
+
+/* How to Use Guide styles */
+.how-to-use {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 2rem;
+}
+
+.how-to-use h6 {
+    margin-bottom: 1rem;
+}
+
+.how-to-use p {
+    margin-bottom: 0.5rem;
+}

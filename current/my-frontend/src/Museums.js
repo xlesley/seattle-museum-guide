@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Box, FormControl, FormControlLabel, FormGroup, Checkbox, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import React, { useState, useEffect, useContext } from 'react';
+import { Box, FormControl, FormControlLabel, FormGroup, Checkbox, Typography, Accordion, AccordionSummary, AccordionDetails, Grid, Card, CardContent, CardMedia, IconButton, Button, CardActions, TextField } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { MapContainer, TileLayer, CircleMarker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import museumMap from './museumsMap.json';
 import './museum.css';
+import { FavoritesContext } from './FavoritesContext';
 
 function Museums() {
     const [filteredMuseums, setFilteredMuseums] = useState([]);
@@ -14,6 +17,9 @@ function Museums() {
     const [disciplineOptions, setDisciplineOptions] = useState([]);
     const [neighborhoodOptions, setNeighborhoodOptions] = useState([]);
     const [adaOptions, setAdaOptions] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const { favorites, handleFavoriteToggle } = useContext(FavoritesContext);
 
     useEffect(() => {
         if (museumMap.length) {
@@ -22,14 +28,15 @@ function Museums() {
             generateNeighborhoodOptions();
             generateAdaOptions();
         }
-    }, [museumMap, disciplineFilter, neighborhoodFilter, adaFilter]);
+    }, [museumMap, disciplineFilter, neighborhoodFilter, adaFilter, searchQuery]);
 
     const filterMuseums = () => {
         const filtered = museumMap.filter(museum => {
             const matchesDiscipline = disciplineFilter.length === 0 || disciplineFilter.includes(museum['Dominant Discipline']);
             const matchesNeighborhood = neighborhoodFilter.length === 0 || neighborhoodFilter.includes(museum['Neighborhood']);
             const matchesAda = adaFilter.length === 0 || adaFilter.includes(museum['ADA Compliant']);
-            return matchesDiscipline && matchesNeighborhood && matchesAda;
+            const matchesSearch = museum.Name.toLowerCase().includes(searchQuery.toLowerCase());
+            return matchesDiscipline && matchesNeighborhood && matchesAda && matchesSearch;
         });
         setFilteredMuseums(filtered);
     };
@@ -62,8 +69,20 @@ function Museums() {
         });
     };
 
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value);
+    };
+
     return (
         <Box>
+            <TextField
+                label="Search Museums"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                value={searchQuery}
+                onChange={handleSearchChange}
+            />
             <Accordion>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography>Dominant Discipline</Typography>
@@ -135,8 +154,7 @@ function Museums() {
                     </FormControl>
                 </AccordionDetails>
             </Accordion>
-
-            <Box sx={{ height: 'calc(100vh - 112px)', zIndex: 100 }} pt={2}>
+            <div style={{ paddingTop: '20px', paddingBottom: '20px' }}>
                 <MapContainer center={[47.6, -122.3]} zoom={10} style={{ height: '400px', width: '100%' }}>
                     <TileLayer
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -169,9 +187,42 @@ function Museums() {
                         </CircleMarker>
                     ))}
                 </MapContainer>
-            </Box>
+            </div>
 
-            {/* <MuseumList filteredMuseums={filteredMuseums} /> */}
+
+            <Grid container spacing={2}>
+                {filteredMuseums.map((museum, index) => (
+                    <Grid item xs={12} sm={6} md={4} key={index}>
+                        <Card>
+                            <CardContent>
+                                <Typography gutterBottom variant="h6" component="div">
+                                    {museum.Name}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    {museum.Address}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    {museum['Dominant Discipline']}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    {museum.Phone}
+                                </Typography>
+                            </CardContent>
+                            <CardActions>
+                                <Button size="small" color="primary" href={museum.URL} target="_blank" rel="noopener noreferrer">
+                                    Learn More
+                                </Button>
+                                <IconButton
+                                    aria-label="add to favorites"
+                                    onClick={() => handleFavoriteToggle(museum)}
+                                >
+                                    {favorites.includes(museum) ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
+                                </IconButton>
+                            </CardActions>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
         </Box>
     );
 }

@@ -1,118 +1,66 @@
-import * as React from 'react';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
+import React, { useContext } from 'react';
+import { Accordion, AccordionSummary, AccordionDetails, Box, Typography, Card, CardContent, CardMedia, IconButton, Grid } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { FavoritesContext } from './FavoritesContext';
 
 function Favorites() {
+    const { favorites, handleFavoriteToggle } = useContext(FavoritesContext);
+
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-            <Accordion>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1-content"
-                    id="panel1-header"
-                >
-                    Seattle Art Museum
-                </AccordionSummary>
-                <AccordionDetails>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            mb: 2, // optional: adds some margin below the image
-                        }}
-                    >
-                        <Box
-                            component="img"
-                            sx={{
-                                height: 233,
-                                width: 350,
-                                maxHeight: { xs: 233, md: 167 },
-                                maxWidth: { xs: 350, md: 250 },
-                            }}
-                            alt="SAM"
-                            src="https://www.seattleartmuseum.org/Assets%20Visit/seattle-art-museum/seattle-art-museum.jpg"
-                        />
-                    </Box>
-                    <Typography component="div">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <p>Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.</p>
-                    </Typography>
-                </AccordionDetails>
-            </Accordion>
-            <Accordion>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel2-content"
-                    id="panel2-header"
-                >
-                    Museum of History and Industry
-                </AccordionSummary>
-                <AccordionDetails>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                        }}
-                    >
-                        <Box
-                            component="img"
-                            sx={{
-                                height: 233,
-                                width: 350,
-                                maxHeight: { xs: 233, md: 167 },
-                                maxWidth: { xs: 350, md: 250 },
-                            }}
-                            alt="MOHAI"
-                            src="https://cdn.wisepops.com/shared/images/wisepops/c.68210/444bcda471a2f7a6f9217263f7da37f2.jpg"
-                        />
-                    </Box>
-                    <Typography component="div">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <p>Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.</p>
-                    </Typography>
-                </AccordionDetails>
-            </Accordion>
-            <Accordion defaultExpanded>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel3-content"
-                    id="panel3-header"
-                >
-                    Frye Art Museum
-                </AccordionSummary>
-                <AccordionDetails>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            mb: 2, // optional: adds some margin below the image
-                        }}
-                    >
-                        <Box
-                            component="img"
-                            sx={{
-                                height: 233,
-                                width: 350,
-                                maxHeight: { xs: 233, md: 167 },
-                                maxWidth: { xs: 350, md: 250 },
-                            }}
-                            alt="FM"
-                            src="https://fryemuseum.org/sites/default/files/images/full-width/Frye-Visit_Banner-low_res-v2.jpg"
-                        />
-                    </Box>
-                    <Typography component="div">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <p>Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.</p>
-                    </Typography>
-                </AccordionDetails>
-            </Accordion>
+            {favorites.length > 0 ? (
+                favorites.map((favorite, index) => (
+                    <Accordion key={index}>
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls={`panel${index + 1}-content`}
+                            id={`panel${index + 1}-header`}
+                        >
+                            {favorite.Name || favorite.title}
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    mb: 2,
+                                }}
+                            >
+                                <Box
+                                    component="img"
+                                    sx={{
+                                        height: 233,
+                                        width: 350,
+                                        maxHeight: { xs: 233, md: 167 },
+                                        maxWidth: { xs: 350, md: 250 },
+                                    }}
+                                    alt={favorite.Name || favorite.title}
+                                    src={favorite.ImageURL || favorite.img_url || 'placeholder.jpg'}
+                                />
+                            </Box>
+                            <Typography component="div">
+                                <p>{favorite.Address || favorite.date}</p>
+                                <p>{favorite['Dominant Discipline'] || favorite.location}</p>
+                                <p>{favorite.description}</p>
+                                <IconButton
+                                    aria-label="remove from favorites"
+                                    onClick={() => handleFavoriteToggle(favorite)}
+                                >
+                                    <FavoriteIcon color="error" />
+                                </IconButton>
+                            </Typography>
+                        </AccordionDetails>
+                    </Accordion>
+                ))
+            ) : (
+                <Typography variant="h6" component="div" sx={{ m: 2 }}>
+                    No favorite items yet.
+                </Typography>
+            )}
         </Box>
-
     );
-};
+}
 
 export default Favorites;

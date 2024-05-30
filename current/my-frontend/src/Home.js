@@ -6,10 +6,17 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import './home.css'; 
+import './home.css';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import HelpIcon from '@mui/icons-material/Help';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+
 function Exhibition({ title, date, location, img_url, link_url }) {
     return (
         <Paper elevation={3} sx={{ padding: '1rem', flex: '1 1 calc(33% - 1rem)', minWidth: '200px' }}>
@@ -82,12 +89,12 @@ function Home() {
         reviewerName: '',
         reviewText: ''
     });
-    
+
     const handleReviewInputChange = (e) => {
         const { name, value } = e.target;
         setReviewDetails({ ...reviewDetails, [name]: value });
     };
-    
+
     const addReview = () => {
         if (reviewDetails.reviewerName && reviewDetails.reviewText) {
             setReviews([...reviews, { ...reviewDetails }]);
@@ -118,17 +125,17 @@ function Home() {
 
             {/* Museum Ticket Comparison Tool */}
             <Container maxWidth="md" sx={{ my: 4 }}>
-            <Typography variant="h4" component="h2" gutterBottom>
-        Enter Ticket Details
-        <Tooltip title="Enter details of the museum ticket you want to compare. Once you've added multiple tickets, click the Compare button to view them in the table below." arrow>
-            <IconButton size="small">
-                <HelpIcon />
-            </IconButton>
-        </Tooltip>
-    </Typography>
+                <Typography variant="h4" component="h2" gutterBottom>
+                    Enter Ticket Details
+                    <Tooltip title="Enter details of the museum ticket you want to compare. Once you've added multiple tickets, click the Compare button to view them in the table below." arrow>
+                        <IconButton size="small">
+                            <HelpIcon />
+                        </IconButton>
+                    </Tooltip>
+                </Typography>
 
                 <Paper elevation={3} sx={{ padding: '2rem' }}>
-                   
+
                     <Grid container spacing={2} sx={{ marginBottom: '1rem' }}>
                         <Grid item xs={12} sm={6}>
                             <TextField
@@ -187,32 +194,36 @@ function Home() {
                         Comparison Table
                     </Typography>
                     {compareClicked && (
-                        <Box component="table" sx={{ width: '100%', borderCollapse: 'collapse' }}>
-                            <Box component="thead">
-                                <Box component="tr">
-                                    <Box component="th" sx={{ border: '1px solid #ccc', padding: '0.5rem' }}>Museum Name</Box>
-                                    <Box component="th" sx={{ border: '1px solid #ccc', padding: '0.5rem' }}>Ticket Price</Box>
-                                    <Box component="th" sx={{ border: '1px solid #ccc', padding: '0.5rem' }}>Location</Box>
-                                    <Box component="th" sx={{ border: '1px solid #ccc', padding: '0.5rem' }}>Additional Features</Box>
-                                    <Box component="th" sx={{ border: '1px solid #ccc', padding: '0.5rem' }}>Actions</Box>
-                                </Box>
-                            </Box>
-                            <Box component="tbody">
-                                {tickets.map((ticket, index) => (
-                                    <Box component="tr" key={index}>
-                                        <Box component="td" sx={{ border: '1px solid #ccc', padding: '0.5rem' }}>{ticket.museumName}</Box>
-                                        <Box component="td" sx={{ border: '1px solid #ccc', padding: '0.5rem' }}>${ticket.ticketPrice}</Box>
-                                        <Box component="td" sx={{ border: '1px solid #ccc', padding: '0.5rem' }}>{ticket.location}</Box>
-                                        <Box component="td" sx={{ border: '1px solid #ccc', padding: '0.5rem' }}>{ticket.additionalFeatures}</Box>
-                                        <Box component="td" sx={{ border: '1px solid #ccc', padding: '0.5rem' }}>
-                                            <Button variant="contained" color="secondary" size="small" onClick={() => removeTicket(index)}>
-                                                Remove
-                                            </Button>
-                                        </Box>
-                                    </Box>
-                                ))}
-                            </Box>
-                        </Box>
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 650 }} aria-label="comparison table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Museum Name</TableCell>
+                                        <TableCell align="right">Ticket Price</TableCell>
+                                        <TableCell align="right">Location</TableCell>
+                                        <TableCell align="right">Additional Features</TableCell>
+                                        <TableCell align="right">Actions</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {tickets.map((ticket, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell component="th" scope="row">
+                                                {ticket.museumName}
+                                            </TableCell>
+                                            <TableCell align="right">${ticket.ticketPrice}</TableCell>
+                                            <TableCell align="right">{ticket.location}</TableCell>
+                                            <TableCell align="right">{ticket.additionalFeatures}</TableCell>
+                                            <TableCell align="right">
+                                                <Button variant="contained" color="secondary" size="small" onClick={() => removeTicket(index)}>
+                                                    Remove
+                                                </Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
                     )}
                     <Box sx={{ marginTop: '1rem', display: 'flex', justifyContent: 'space-between' }}>
                         <Button variant="contained" color="primary" onClick={handleCompareClick}>
@@ -266,66 +277,66 @@ function Home() {
                             <Exhibition key={index} {...exhibition} />
                         ))}
                     </Box>
-    <Box sx={{ padding: '2rem 0', marginTop:'5rem' }}>
-    <Typography variant="h4" component="h2" gutterBottom>
-                        Reviews
-    </Typography>  
-    <Paper elevation={3} sx={{ padding: '2rem'}}>
-    <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-            <TextField
-                fullWidth
-                label="Your Name"
-                name="reviewerName"
-                value={reviewDetails.reviewerName}
-                onChange={handleReviewInputChange}
-                variant="outlined"
-            />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-            <TextField
-                fullWidth
-                label="Your Review"
-                name="reviewText"
-                value={reviewDetails.reviewText}
-                onChange={handleReviewInputChange}
-                variant="outlined"
-            />
-        </Grid>
-        <Grid item xs={12}>
-            <Button variant="contained" color="primary" onClick={addReview}>
-                Add Review
-            </Button>
-        </Grid>
-    </Grid>
-    <Box sx={{ marginTop: '2rem' }}>
-        <Typography variant="h5" component="h3" gutterBottom>
-            All Reviews
-        </Typography>
-        {reviews.length === 0 ? (
-            <Typography variant="body1" color="textSecondary">
-                No reviews yet.
-            </Typography>
-        ) : (
-            <ul>
-                {reviews.map((review, index) => (
-                    <li key={index}>
-                        <Typography variant="body1" component="p">
-                            <strong>{review.reviewerName}</strong>: {review.reviewText}
+                    <Box sx={{ padding: '2rem 0', marginTop: '5rem' }}>
+                        <Typography variant="h4" component="h2" gutterBottom>
+                            Reviews
                         </Typography>
-                    </li>
-                ))}
-            </ul>
-        )}
-    </Box>
-</Paper>
-</Box>
+                        <Paper elevation={3} sx={{ padding: '2rem' }}>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        fullWidth
+                                        label="Your Name"
+                                        name="reviewerName"
+                                        value={reviewDetails.reviewerName}
+                                        onChange={handleReviewInputChange}
+                                        variant="outlined"
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        fullWidth
+                                        label="Your Review"
+                                        name="reviewText"
+                                        value={reviewDetails.reviewText}
+                                        onChange={handleReviewInputChange}
+                                        variant="outlined"
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Button variant="contained" color="primary" onClick={addReview}>
+                                        Add Review
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                            <Box sx={{ marginTop: '2rem' }}>
+                                <Typography variant="h5" component="h3" gutterBottom>
+                                    All Reviews
+                                </Typography>
+                                {reviews.length === 0 ? (
+                                    <Typography variant="body1" color="textSecondary">
+                                        No reviews yet.
+                                    </Typography>
+                                ) : (
+                                    <ul>
+                                        {reviews.map((review, index) => (
+                                            <li key={index}>
+                                                <Typography variant="body1" component="p">
+                                                    <strong>{review.reviewerName}</strong>: {review.reviewText}
+                                                </Typography>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </Box>
+                        </Paper>
+                    </Box>
                 </Container>
             </Box>
 
         </Box>
-        
-        
+
+
     );
 }
 

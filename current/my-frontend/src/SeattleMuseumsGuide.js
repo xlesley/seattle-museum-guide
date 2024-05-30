@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-// import FolderIcon from '@mui/icons-material/Folder';
-// import RestoreIcon from '@mui/icons-material/Restore';
-// import FavoriteIcon from '@mui/icons-material/Favorite';
 import HomeIcon from "@mui/icons-material/Home";
 import MuseumIcon from "@mui/icons-material/Museum";
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
@@ -95,15 +92,3 @@ export function Navbar(props) {
     </Box>
   );
 }
-
-// import Paper from "@mui/material/Paper";
-// function SeattleMuseumsGuide(props) {
-//   return (
-//     <>
-//       <Navbar />
-//       <BottomNavTabs />
-//     </>
-//   );
-// }
-
-// export default SeattleMuseumsGuide;

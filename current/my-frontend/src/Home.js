@@ -3,10 +3,8 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import './home.css';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import HelpIcon from '@mui/icons-material/Help';
@@ -16,6 +14,9 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { Select, MenuItem, FormControl, InputLabel, TextField } from '@mui/material';
+import museumMap from './museumsMap.json';
+import './home.css';
 
 function Exhibition({ title, date, location, img_url, link_url }) {
     return (
@@ -29,48 +30,34 @@ function Exhibition({ title, date, location, img_url, link_url }) {
     );
 }
 
-function Home() {
+function MuseumComparisonTool({ museums }) {
     const [tickets, setTickets] = useState([]);
-    const [ticketDetails, setTicketDetails] = useState({
-        museumName: '',
-        ticketPrice: '',
-        location: '',
-        additionalFeatures: ''
-    });
-    const [compareClicked, setCompareClicked] = useState(false); // Track if Compare button is clicked
+    const [selectedMuseum, setSelectedMuseum] = useState('');
 
-    const [errors, setErrors] = useState({});
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setTicketDetails({ ...ticketDetails, [name]: value });
+    const handleSelectChange = (e) => {
+        setSelectedMuseum(e.target.value);
     };
 
-    const validateInputs = () => {
-        let tempErrors = {};
-        if (!ticketDetails.museumName) tempErrors.museumName = 'Museum name is required';
-        if (!ticketDetails.ticketPrice) {
-            tempErrors.ticketPrice = 'Ticket price is required';
-        } else if (isNaN(ticketDetails.ticketPrice)) {
-            tempErrors.ticketPrice = 'Ticket price must be a number';
-        }
-        if (!ticketDetails.location) tempErrors.location = 'Location is required';
-        setErrors(tempErrors);
-        return Object.keys(tempErrors).length === 0;
-    };
-
-    const addTicket = () => {
-        if (validateInputs()) {
-            setTickets([...tickets, { ...ticketDetails }]);
-            setTicketDetails({
-                museumName: '',
-                ticketPrice: '',
-                location: '',
-                additionalFeatures: ''
-            });
-            setErrors({});
+    const handleAddTicket = () => {
+        if (selectedMuseum) {
+            const selectedMuseumData = museums.find(museum => museum.Name === selectedMuseum);
+            if (selectedMuseumData) {
+                const ticketDetails = {
+                    museumName: selectedMuseumData.Name,
+                    ticketPrice: selectedMuseumData["Ticket Price"],
+                    location: selectedMuseumData.Address,
+                    dominantDiscipline: selectedMuseumData["Dominant Discipline"]
+                };
+                setTickets([...tickets, ticketDetails]);
+                setSelectedMuseum('');
+            }
         }
     };
+
+    // const handleCompareClick = () => {
+    //     // Perform comparison actions here
+    //     console.log("Comparison clicked");
+    // };
 
     const removeTicket = (index) => {
         const updatedTickets = tickets.filter((_, i) => i !== index);
@@ -81,9 +68,75 @@ function Home() {
         setTickets([]);
     };
 
-    const handleCompareClick = () => {
-        setCompareClicked(true);
-    };
+    return (
+        <Box sx={{ width: '100%', maxWidth: 600, mx: 'auto', mt: 4 }}>
+            <FormControl fullWidth sx={{ mb: 2 }}>
+                <InputLabel id="demo-simple-select-label">Museum</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={selectedMuseum}
+                    label="Museum"
+                    onChange={handleSelectChange}
+                >
+                    {museums.map((museum) => (
+                        <MenuItem key={museum.Name} value={museum.Name}>
+                            {museum.Name}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+
+            <Button variant="contained" color="primary" onClick={handleAddTicket} sx={{ mb: 2 }}>
+                Add Ticket
+            </Button>
+{/* 
+            <Button variant="contained" color="secondary" onClick={handleCompareClick} sx={{ mb: 2, ml: 2 }}>
+                Compare
+            </Button> */}
+
+            <Button variant="outlined" color="error" onClick={resetComparison} sx={{ mb: 2, ml: 2 }}>
+                Reset
+            </Button>
+
+            <Typography variant="h4" component="h2" gutterBottom>
+                Comparison Table
+            </Typography>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="comparison table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Museum Name</TableCell>
+                            <TableCell align="right">Ticket Price</TableCell>
+                            <TableCell align="right">Location</TableCell>
+                            <TableCell align="right">Dominant Discipline</TableCell>
+                            <TableCell align="right">Actions</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {tickets.map((ticket, index) => (
+                            <TableRow key={index}>
+                                <TableCell component="th" scope="row">
+                                    {ticket.museumName}
+                                </TableCell>
+                                <TableCell align="right">${ticket.ticketPrice}</TableCell>
+                                <TableCell align="right">{ticket.location}</TableCell>
+                                <TableCell align="right">{ticket.dominantDiscipline}</TableCell>
+                                <TableCell align="right">
+                                    <Button variant="contained" color="secondary" size="small" onClick={() => removeTicket(index)}>
+                                        Remove
+                                    </Button>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Box>
+    );
+}
+
+function Home() {
     const [reviews, setReviews] = useState([]);
     const [reviewDetails, setReviewDetails] = useState({
         reviewerName: '',
@@ -104,6 +157,7 @@ function Home() {
             });
         }
     };
+
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             {/* Welcome Section */}
@@ -123,119 +177,7 @@ function Home() {
                 </Container>
             </Box>
 
-            {/* Museum Ticket Comparison Tool */}
-            <Container maxWidth="md" sx={{ my: 4 }}>
-                <Typography variant="h4" component="h2" gutterBottom>
-                    Enter Ticket Details
-                    <Tooltip title="Enter details of the museum ticket you want to compare. Once you've added multiple tickets, click the Compare button to view them in the table below." arrow>
-                        <IconButton size="small">
-                            <HelpIcon />
-                        </IconButton>
-                    </Tooltip>
-                </Typography>
-
-                <Paper elevation={3} sx={{ padding: '2rem' }}>
-
-                    <Grid container spacing={2} sx={{ marginBottom: '1rem' }}>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                fullWidth
-                                label="Museum Name"
-                                name="museumName"
-                                value={ticketDetails.museumName}
-                                onChange={handleInputChange}
-                                variant="outlined"
-                                error={!!errors.museumName}
-                                helperText={errors.museumName}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                fullWidth
-                                label="Ticket Price"
-                                name="ticketPrice"
-                                value={ticketDetails.ticketPrice}
-                                onChange={handleInputChange}
-                                variant="outlined"
-                                error={!!errors.ticketPrice}
-                                helperText={errors.ticketPrice}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                fullWidth
-                                label="Location"
-                                name="location"
-                                value={ticketDetails.location}
-                                onChange={handleInputChange}
-                                variant="outlined"
-                                error={!!errors.location}
-                                helperText={errors.location}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                fullWidth
-                                label="Additional Features"
-                                name="additionalFeatures"
-                                value={ticketDetails.additionalFeatures}
-                                onChange={handleInputChange}
-                                variant="outlined"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Button variant="contained" color="primary" fullWidth onClick={addTicket}>
-                                Add Ticket
-                            </Button>
-                        </Grid>
-                    </Grid>
-
-                    <Typography variant="h4" component="h2" gutterBottom>
-                        Comparison Table
-                    </Typography>
-                    {compareClicked && (
-                        <TableContainer component={Paper}>
-                            <Table sx={{ minWidth: 650 }} aria-label="comparison table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Museum Name</TableCell>
-                                        <TableCell align="right">Ticket Price</TableCell>
-                                        <TableCell align="right">Location</TableCell>
-                                        <TableCell align="right">Additional Features</TableCell>
-                                        <TableCell align="right">Actions</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {tickets.map((ticket, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell component="th" scope="row">
-                                                {ticket.museumName}
-                                            </TableCell>
-                                            <TableCell align="right">${ticket.ticketPrice}</TableCell>
-                                            <TableCell align="right">{ticket.location}</TableCell>
-                                            <TableCell align="right">{ticket.additionalFeatures}</TableCell>
-                                            <TableCell align="right">
-                                                <Button variant="contained" color="secondary" size="small" onClick={() => removeTicket(index)}>
-                                                    Remove
-                                                </Button>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    )}
-                    <Box sx={{ marginTop: '1rem', display: 'flex', justifyContent: 'space-between' }}>
-                        <Button variant="contained" color="primary" onClick={handleCompareClick}>
-                            Compare
-                        </Button>
-                        <Button variant="contained" color="secondary" onClick={resetComparison}>
-                            Reset
-                        </Button>
-                    </Box>
-                </Paper>
-            </Container>
-
+            <MuseumComparisonTool museums={museumMap} />
             {/* Content and Pictures Section */}
             <Box sx={{ padding: '2rem 0' }}>
                 <Container maxWidth="md">
@@ -281,62 +223,42 @@ function Home() {
                         <Typography variant="h4" component="h2" gutterBottom>
                             Reviews
                         </Typography>
-                        <Paper elevation={3} sx={{ padding: '2rem' }}>
-                            <Grid container spacing={2}>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        fullWidth
-                                        label="Your Name"
-                                        name="reviewerName"
-                                        value={reviewDetails.reviewerName}
-                                        onChange={handleReviewInputChange}
-                                        variant="outlined"
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        fullWidth
-                                        label="Your Review"
-                                        name="reviewText"
-                                        value={reviewDetails.reviewText}
-                                        onChange={handleReviewInputChange}
-                                        variant="outlined"
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Button variant="contained" color="primary" onClick={addReview}>
-                                        Add Review
-                                    </Button>
-                                </Grid>
-                            </Grid>
-                            <Box sx={{ marginTop: '2rem' }}>
-                                <Typography variant="h5" component="h3" gutterBottom>
-                                    All Reviews
-                                </Typography>
-                                {reviews.length === 0 ? (
-                                    <Typography variant="body1" color="textSecondary">
-                                        No reviews yet.
-                                    </Typography>
-                                ) : (
-                                    <ul>
-                                        {reviews.map((review, index) => (
-                                            <li key={index}>
-                                                <Typography variant="body1" component="p">
-                                                    <strong>{review.reviewerName}</strong>: {review.reviewText}
-                                                </Typography>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
-                            </Box>
-                        </Paper>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                            {reviews.map((review, index) => (
+                                <Paper key={index} elevation={3} sx={{ padding: '1rem' }}>
+                                    <Typography variant="h6" gutterBottom>{review.reviewerName}</Typography>
+                                    <Typography variant="body1">{review.reviewText}</Typography>
+                                </Paper>
+                            ))}
+                        </Box>
+                        <Box sx={{ marginTop: '2rem' }}>
+                            <Typography variant="h6" gutterBottom>Add a Review</Typography>
+                            <TextField
+                                fullWidth
+                                label="Your Name"
+                                name="reviewerName"
+                                value={reviewDetails.reviewerName}
+                                onChange={handleReviewInputChange}
+                                sx={{ mb: 2 }}
+                            />
+                            <TextField
+                                fullWidth
+                                label="Your Review"
+                                name="reviewText"
+                                value={reviewDetails.reviewText}
+                                onChange={handleReviewInputChange}
+                                multiline
+                                rows={4}
+                                sx={{ mb: 2 }}
+                            />
+                            <Button variant="contained" color="primary" onClick={addReview}>
+                                Submit Review
+                            </Button>
+                        </Box>
                     </Box>
                 </Container>
             </Box>
-
         </Box>
-
-
     );
 }
 

@@ -181,44 +181,7 @@ function Home() {
             {/* Content and Pictures Section */}
             <Box sx={{ padding: '2rem 0' }}>
                 <Container maxWidth="md">
-                    <Typography variant="h4" component="h2" gutterBottom>
-                        Featured Museums and Promotions
-                    </Typography>
-                    {/* Placeholder for additional content */}
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
-                        {[
-                            {
-                                "title": "Calder: In Motion, The Shirley Family Collection",
-                                "date": "Nov 8 2023 - Aug 4 2024",
-                                "location": "Seattle Art Museum",
-                                "img_url": "https://sam.canto.com/direct/image/9sv4na8vkh33df408m657om55i/QEORtJX-kH42k6c42gUcayo8J5o/m800/800",
-                                "link_url": "/exhibitions/calder"
-                            },
-                            {
-                                "title": "Anida Yoeu Ali: Hybrid Skin, Mythical Presence",
-                                "date": "Jan 18 - Jul 7 2024",
-                                "location": "Seattle Asian Art Museum",
-                                "img_url": "https://sam.canto.com/direct/image/igkrevblud6gb8atiu2bqlbq3n/knO2_wKrrClbwrve9t4fCx7jnDE/m800/800",
-                                "link_url": "/exhibitions/ali"
-                            },
-                            {
-                                "title": "Elizabeth Malaska: All Be Your Mirror",
-                                "date": "Nov 17 2023 - Jun 16 2024",
-                                "location": "Seattle Art Museum",
-                                "img_url": "https://sam.canto.com/direct/image/qubv8bi3f549fdjvknjpubor5p/6__Ov-KqR6UZ0GDM2t8JOALXULA/m800/800",
-                                "link_url": "/Exhibitions/Details?EventId=87429"
-                            },
-                            {
-                                "title": "Remember the Rain",
-                                "date": "Aug 18 2023 - Oct 28 2024",
-                                "location": "Seattle Art Museum",
-                                "img_url": "https://sam.canto.com/direct/image/3qjlrlh55d00df8423vd0vel5t/_YcOlIHLjSN-TsRt2-apoiddJcg/m800/800",
-                                "link_url": "/Exhibitions/Details?EventId=92510"
-                            }
-                        ].map((exhibition, index) => (
-                            <Exhibition key={index} {...exhibition} />
-                        ))}
-                    </Box>
+
                     <Box sx={{ padding: '2rem 0', marginTop: '5rem' }}>
                         <Typography variant="h4" component="h2" gutterBottom>
                             Reviews

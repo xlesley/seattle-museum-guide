@@ -46,6 +46,9 @@ const darkTheme = createTheme({
       transform: "scale(1, 3)",
       padding: ".6em 0",
     },
+    h3: {
+      fontWeight: 600,
+    },
     body2: {
       fontSize: '1.05em',
     },

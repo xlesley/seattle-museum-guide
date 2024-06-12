@@ -37,7 +37,7 @@
         "Location": "(47.51842745, -122.2976981)",
         "Latitude": 47.51842745,
         "Longitude": -122.2976981,
-        "Ticket Price": 10
+        "Ticket Price": 26
     },
 {
         "Name": "Burke Museum",
@@ -77,7 +77,7 @@
         "Location": "(47.6609225, -122.3151058)",
         "Latitude": 47.6609225,
         "Longitude": -122.3151058,
-        "Ticket Price": 20
+        "Ticket Price": 22
     }, 
 {
         "Name": "Seattle Art Museum Olympic Sculture Park",
@@ -117,7 +117,7 @@
         "Location": "(47.6163466, -122.3538499)",
         "Latitude": 47.6163466,
         "Longitude": -122.3538499,
-        "Ticket Price": 29.99
+        "Ticket Price": 0
     }, 
 {
         "Name": "Log House Museum",
@@ -157,7 +157,7 @@
         "Location": "(47.5775947, -122.4109498)",
         "Latitude": 47.5775947,
         "Longitude": -122.4109498,
-        "Ticket Price": 20
+        "Ticket Price": 0
     }, 
 {
         "Name": "Seattle Pinball Museum",
@@ -197,7 +197,7 @@
         "Location": "(47.5980081, -122.3248662)",
         "Latitude": 47.5980081,
         "Longitude": -122.3248662,
-        "Ticket Price": 30
+        "Ticket Price": 23
     }, 
 {
         "Name": "Seattle Art Museum",
@@ -237,7 +237,7 @@
         "Location": "(47.6071955, -122.3382555)",
         "Latitude": 47.6071955,
         "Longitude": -122.3382555,
-        "Ticket Price": 12
+        "Ticket Price": 32.99
     }, 
 {
         "Name": "Frye Art Museum",
@@ -317,7 +317,7 @@
         "Location": "(47.63028375, -122.3141998)",
         "Latitude": 47.63028375,
         "Longitude": -122.3141998,
-        "Ticket Price": 29.99
+        "Ticket Price": 14.99
     }, 
 {
         "Name": "Northwest African American Museum",
@@ -397,7 +397,7 @@
         "Location": "(47.599653, -122.33026)",
         "Latitude": 47.599653,
         "Longitude": -122.33026,
-        "Ticket Price": 10
+        "Ticket Price": 0
     }, 
 {
         "Name": "Henry Art Museum",
@@ -437,7 +437,7 @@
         "Location": "(47.6539065, -122.3121096)",
         "Latitude": 47.6539065,
         "Longitude": -122.3121096,
-        "Ticket Price": 10
+        "Ticket Price": 0
     }, 
 {
         "Name": "Nordic Museum",
@@ -477,7 +477,7 @@
         "Location": "(47.6776991, -122.3963587)",
         "Latitude": 47.6776991,
         "Longitude": -122.3963587,
-        "Ticket Price": 10
+        "Ticket Price": 20
     }, 
 {
         "Name": "Museum of History and Industry (MOHAI)",
@@ -557,7 +557,7 @@
         "Location": "(47.59823, -122.32286)",
         "Latitude": 47.59823,
         "Longitude": -122.32286,
-        "Ticket Price": 10
+        "Ticket Price": 17
     }, 
 {
         "Name": "Living Computer Museum",
@@ -597,7 +597,7 @@
         "Location": "(47.5825204, -122.334653)",
         "Latitude": 47.5825204,
         "Longitude": -122.334653,
-        "Ticket Price": 10
+        "Ticket Price": 16
     }, 
 {
         "Name": "Seattle Center Seattle Children's Museum",
@@ -637,6 +637,6 @@
         "Location": "(47.6212523, -122.3509484)",
         "Latitude": 47.6212523,
         "Longitude": -122.3509484,
-        "Ticket Price": 10
+        "Ticket Price": 15
     }
 ]
